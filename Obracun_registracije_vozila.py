@@ -11,7 +11,7 @@ from pathlib import Path
 from resizeimage import resizeimage
 
 from reportlab.pdfgen import canvas
-from reportlab.lib.units import cm
+from reportlab.lib.units import inch, cm
 
 def defocus(event):
     event.widget.master.focus_set()
@@ -20,7 +20,7 @@ root=Tk()
 root.title("Obračun registracije vozila")
 
 root.configure(background='#e6e6e6')
-root.iconbitmap('icons/thumb.ico')
+root.iconbitmap('icons/grawe.ico')
 bigfont = font.Font(family="Arial",size=11)
 root.option_add("*Font", bigfont)
 
@@ -37,6 +37,7 @@ global newWindow, newWindow1, year_, labelPolica, labelPut60, labelPut40, labelP
        tehnicki, zeleniKarton, putarina60, putarina40, zastitaVoda, fond, pomocPut, taksa, potvrdaVl, potvrdaReg, an, \
        stiker, regTab, komUg, provizijaB, porez, kombiV, kombiTeretV, invalidV, zeleniK, pravno, okolis, cijena, label401, \
        vrstaGor, label5, zapaljiviPrV, zapaljiviPrV1, godProz, bonus, label6, label7,  sedlasti, zapaljiviV, zast
+
 zast = False
 t = False
 p = False
@@ -65,13 +66,13 @@ zapaljiviPrV1 = IntVar()
 dodatak = int()
 check = PhotoImage(file='icons/check.png')
 #----------------------------------------FRAME--------------------------------------------------------------------------
-frame = Frame(root, height=400, width=300, bg='#222', bd='2')
+frame = Frame(root, height=400, width=300, bg='#017a3d', bd='2')
 
-logo=PhotoImage(file='icons/central.png')
+logo=PhotoImage(file='icons/grawe.png')
 lbl_image = Label(frame, image=logo)
 frame.pack(fill=X)
-lbl_image.pack(padx="23", side=LEFT)
-label=Label(frame, text="     OBRAČUN REGISTRACIJE VOZILA", bg='#222', fg='white') #probati sa colonom
+lbl_image.pack(padx=35, side=LEFT)
+label=Label(frame, text="   OBRAČUN REGISTRACIJE VOZILA", bg='#017a3d', fg='white') #probati sa colonom
 label.config(font=("Arial", 20))
 label.pack(side=LEFT)
 
@@ -146,15 +147,15 @@ label7.place(x=20, y=395)
 label7.config(font=("Arial", 12))
 
 bonus = ttk.Combobox(root, textvariable='Bonus', state='readonly', width=28,
-        values=('      0%', '    10%', '    15%', '    20%', '    25%', '    30%',
-        '    35%', '    40%', '    45%', '    50%',))
+        values=('      0%', '    10%', '    20%', '    30%',
+        '    40%', '    50%', '   110%', '   120%', '   130%', '   140%', '   150%', '   160%', '   180%', '   200%'))
 bonus.place(x=21, y=420)
 bonus.set("    Odaberite iznos bonusa")
 bonus.bind("<FocusIn>", defocus)
 #---------------------------------------FUNKCIJE------------------------------------------------------------------------
 
 def vrstaVozila(eventObject):
-    global t, p, pr, m, snaga, label4, label3, zapremina, regz, vlz, invalidV, label401, an, vrstaGor, label5, zast, da , db
+    global t, p, pr, m, snaga, label4, label3, zapremina, regz, vlz, invalidV, label401, an, vrstaGor, label5, da, db, zast
     global terensko, terenskoV, taxi, taxiV, rentV, rent, kombi, kombiTeret, invalid, ug, ugV, potvrdaVlV, potvrdaRegV, kombiV, kombiTeretV
     global sedlastiTeg, label8, vrTer, label9, nosTer, label10, brOs, label11, maxNos, potvrdaoreg, potvrdaovl, zapaljivi, labeltkstT, labeltkstT1, pravno
     global vrPrik, nosPrik, brOsPrik, maxNosPrik, zapaljiviPr1, zapaljiviPr, labeltkstPr2, labeltkstPr1, labeltkstPr, labeltkstPr3
@@ -198,12 +199,13 @@ def vrstaVozila(eventObject):
         label7.config(font=("Arial", 12))
 
         bonus = ttk.Combobox(root, textvariable='Bonus', state='readonly', width=28,
-                             values=('      0%', '    10%', '    15%', '    20%', '    25%', '    30%',
-                                     '    35%', '    40%', '    45%', '    50%',))
+                             values=('      0%', '    10%', '    20%', '    30%',
+                                     '    40%', '    50%', '   110%', '   120%', '   130%', '   140%', '   150%',
+                                     '   160%', '   180%', '   200%'))
         bonus.place(x=21, y=420)
         bonus.set("    Odaberite iznos bonusa")
         bonus.bind("<FocusIn>", defocus)
-    
+
     if vrstaVoz.get() == '    Teretno':
 
         if pr is False:
@@ -348,7 +350,9 @@ def vrstaVozila(eventObject):
         label9.config(font=("Arial", 12))
 
         nosTer = ttk.Combobox(root, textvariable='Nosivost teretnog vozila', state='readonly', width=28, values=(
-            '    do 0.5 t', '    preko 0.5 - 1.0 t', '    preko 1.0 - 2.0 t', '    preko 2.0 - 3.0 t', '    preko 3.0 - 5.0 t', '    preko 5.0 - 7.0 t', '    preko 7.0 - 10.0 t', '    preko 10.0 - 15.0 t', '    preko 15.0 t'))
+            '    do 0.5 t', '    preko 0.5 - 1.0 t', '    preko 1.0 - 2.0 t', '    preko 2.0 - 3.0 t',
+            '    preko 3.0 - 5.0 t', '    preko 5.0 - 7.0 t', '    preko 7.0 - 10.0 t', '    preko 10.0 - 15.0 t',
+            '    preko 15.0 t'))
         nosTer.place(x=21, y=560)
         nosTer.set("    Odaberite nosivost vozila")
         nosTer.bind("<FocusIn>", defocus)
@@ -370,7 +374,7 @@ def vrstaVozila(eventObject):
         maxNos = ttk.Combobox(root, textvariable='Dopuštena masa', state='readonly', width=28, values=(
             '    do 1000 kg', '    1001 - 2000 kg', '    2001 - 3000 kg', '    3001 - 3500 kg', '    3501 - 5000 kg',
             '    5001 - 6000 kg', '    6001 - 7000 kg', '    7001 - 8000 kg', '    8001 - 9000 kg',
-            '    9001 - 10000 kg', '    10001 - 11000 kg','    11001 - 12000 kg', '    12001 - 13000 kg',
+            '    9001 - 10000 kg', '    10001 - 11000 kg', '    11001 - 12000 kg', '    12001 - 13000 kg',
             '    13001 - 14000 kg', '    14001 - 15000 kg', '    15001 - 16000 kg', '    16001 - 17000 kg',
             '    17001 - 18000 kg', '    18001 - 19000 kg', '    19001 - 20000 kg', '    20001 - 21000 kg',
             '    21001 - 22000 kg', '    22001 - 23000 kg', '    23001 - 24000 kg', '    24001 - 25000 kg',
@@ -381,12 +385,11 @@ def vrstaVozila(eventObject):
         maxNos.bind("<FocusIn>", defocus)
 
         zapaljivi = Checkbutton(root, height=2, text='', variable=zapaljiviV, font='Arial 11', bg="#e6e6e6",
-                                  fg="#222")
+                                fg="#222")
         zapaljivi.place(x=18, y=700)
 
         tkstT = "Vozilo povremeno ili stalno služi za prijevoz"
         tkstT1 = "eksplozivnih i lako zapaljivih tvari"
-
 
         labeltkstT = Label(root, text=tkstT, bg="#e6e6e6", fg="#222")
         labeltkstT.place(x=40, y=699)
@@ -559,13 +562,36 @@ def vrstaVozila(eventObject):
         label401.config(font=("Arial", 12))
 
         an = ttk.Combobox(root, textvariable='Odaberite premiju', state='readonly', width=28, values=('    Bez premije',
-            '    5.22 KM', '    6.53 KM', '    7.18 KM', '    7.83 KM',
-            '  10.44 KM', '  13.05 KM'))
+                                                                                                      '    2.85 KM',
+                                                                                                      '    5.70 KM',
+                                                                                                      '    8.55 KM',
+                                                                                                      '  11.40 KM',
+                                                                                                      '  14.25 KM',
+                                                                                                      '  17.10 KM',
+                                                                                                      '  19.95 KM',
+                                                                                                      '  22.80 KM',
+                                                                                                      '  25.65 KM',
+                                                                                                      '  28.50 KM',
+                                                                                                      '  31.35 KM',
+                                                                                                      '  34.20 KM',
+                                                                                                      '  39.90 KM',
+                                                                                                      '  42.75 KM',
+                                                                                                      '  45.60 KM',
+                                                                                                      '  48.45 KM',
+                                                                                                      '  51.30 KM',
+                                                                                                      '  54.15 KM',
+                                                                                                      '  57.00 KM',
+                                                                                                      '  59.85 KM',
+                                                                                                      '  62.70 KM',
+                                                                                                      '  65.55 KM',
+                                                                                                      '  68.40 KM',
+                                                                                                      '  71.25 KM'))
         an.set("    Bez premije")
         an.place(x=21, y=475)
         an.bind("<FocusIn>", defocus)
 
-        terensko = Checkbutton(root, text='Terensko vozilo', variable=terenskoV, font='Arial 12', bg="#e6e6e6", fg="#222")
+        terensko = Checkbutton(root, text='Terensko vozilo', variable=terenskoV, font='Arial 12', bg="#e6e6e6",
+                               fg="#222")
         terensko.place(x=18, y=535)
 
         pravno = Checkbutton(root, text='Pravno lice', variable=pravnoV, font='Arial 12', bg="#e6e6e6",
@@ -582,663 +608,392 @@ def vrstaVozila(eventObject):
         rent = Checkbutton(root, text='Rent a car', variable=rentV, font='Arial 12', bg="#e6e6e6", fg="#222")
         rent.place(x=18, y=655)
 
-        kombi = Checkbutton(root, text='Kombi vozila sa 7 i više mjesta', variable=kombiV, font='Arial 12', bg="#e6e6e6", fg="#222")
+        kombi = Checkbutton(root, text='Kombi vozila sa 7 i više mjesta', variable=kombiV, font='Arial 12',
+                            bg="#e6e6e6", fg="#222")
         kombi.place(x=18, y=685)
 
-        kombiTeret = Checkbutton(root, text='Kombi vozila namijenjena prijevozu tereta', variable=kombiTeretV, font='Arial 12', bg="#e6e6e6", fg="#222")
+        kombiTeret = Checkbutton(root, text='Kombi vozila namijenjena prijevozu tereta', variable=kombiTeretV,
+                                 font='Arial 12', bg="#e6e6e6", fg="#222")
         kombiTeret.place(x=18, y=715)
 
         invalid = Checkbutton(root, text='Osobe sa 80% i više tjelesnim oštećenjem', variable=invalidV,
-                                 font='Arial 12', bg="#e6e6e6", fg="#222")
+                              font='Arial 12', bg="#e6e6e6", fg="#222")
         invalid.place(x=18, y=745)
 
         btn.place(x=96, y=785)
 
-
-
     elif vrstaVoz.get() == '    Priključno':
-
         label3.destroy()
-
         zapremina.destroy()
-
         vrstaGor.destroy()
-
         label5.destroy()
-
         label4.destroy()
-
         snaga.destroy()
-
         pravnoV.set(value=1)
-
         label6.place(x=20, y=285)
-
         godProz.place(x=21, y=310)
-
         label7.place(x=20, y=340)
-
         bonus.place(x=21, y=365)
 
         if pr is True:
-
             if zast is True:
                 da.destroy()
-
                 db.destroy()
-
                 zast = False
-
             vrPrik.destroy()
-
             label8.destroy()
-
             nosPrik.destroy()
-
             label9.destroy()
-
             brOsPrik.destroy()
-
             label10.destroy()
-
             maxNosPrik.destroy()
-
             label11.destroy()
-
             pravno.destroy()
-
             zapaljiviPr.destroy()
-
             zapaljiviPr1.destroy()
-
             labeltkstPr2.destroy()
-
             labeltkstPr1.destroy()
-
             labeltkstPr.destroy()
-
             labeltkstPr3.destroy()
 
         if m is True:
             kat.destroy()
-
             label10.destroy()
-
             kolica.destroy()
-
             rvi.destroy()
-
             labeltkstM.destroy()
-
             labeltkstM1.destroy()
-
             pravno.destroy()
-
             ug.destroy()
-
             m = False
 
         if p is True:
             terensko.destroy()
-
             taxi.destroy()
-
             rent.destroy()
-
             kombi.destroy()
-
             kombiTeret.destroy()
-
             invalid.destroy()
-
             ug.destroy()
-
             pravno.destroy()
-
             label401.destroy()
-
             an.destroy()
-
             p = False
 
         if t is True:
             sedlastiTeg.destroy()
-
             label8.destroy()
-
             vrTer.destroy()
-
             label9.destroy()
-
             nosTer.destroy()
-
             label10.destroy()
-
             brOs.destroy()
-
             label11.destroy()
-
             maxNos.destroy()
-
             zapaljivi.destroy()
-
             labeltkstT.destroy()
-
             labeltkstT1.destroy()
-
             t = False
 
         pr = True
 
         if vrstaReg.get() == '    Produženje registracije':
-
             potvrdaoreg = Checkbutton(root, text='Potvrda o registraciji', variable=potvrdaRegV, font='Arial 12',
-
                                       bg="#e6e6e6",
-
                                       fg="#222")
-
             potvrdaoreg.place(x=20, y=505)
-
             regz = True
-
         elif vrstaReg.get() == '    Prva registracija':
-
             potvrdaovl = Checkbutton(root, text='Potvrda o vlasništvu', variable=potvrdaVlV, font='Arial 12',
-
                                      bg="#e6e6e6",
-
                                      fg="#222")
-
             potvrdaovl.place(x=20, y=505)
-
             vlz = True
 
         pravno = Checkbutton(root, text='Pravno lice', variable=pravnoV, font='Arial 12', bg="#e6e6e6",
-
                              fg="#222")
-
         pravno.place(x=20, y=535)
 
         label8 = Label(root, text="Vrsta priključnog vozila:", bg="#e6e6e6", fg="#222")
-
         label8.place(x=20, y=175)
-
         label8.config(font=("Arial", 12))
 
         vrPrik = ttk.Combobox(root, textvariable='Vrsta priključnog vozila', state='readonly', width=28, values=(
-
             '    O1', '    O2', '    O3', '    O4'))
 
         vrPrik.set("    Vrsta priključnog vozila")
-
         vrPrik.bind("<FocusIn>", defocus)
-
         vrPrik.place(x=21, y=200)
-
         label9 = Label(root, text="Nosivost priključnog vozila:", bg="#e6e6e6", fg="#222")
-
         label9.place(x=20, y=395)
-
         label9.config(font=("Arial", 12))
 
         nosPrik = ttk.Combobox(root, textvariable='Nosivost priključnog vozila', state='readonly', width=28, values=(
-
             '    do 1 t', '    preko 1 - 3 t', '    preko 3 - 5 t', '    preko 5 - 10 t', '    preko 10 - 15 t',
             '    preko 15 - 20 t', '    preko 20 t'))
-
         nosPrik.place(x=21, y=420)
-
         nosPrik.set("    Odaberite nosivost vozila")
-
         nosPrik.bind("<FocusIn>", defocus)
 
         label10 = Label(root, text="Broj osovina:", bg="#e6e6e6", fg="#222")
-
         label10.place(x=20, y=230)
-
         label10.config(font=("Arial", 12))
 
         brOsPrik = ttk.Combobox(root, textvariable='Broj osovina', state='readonly', width=28, values=(
-
             '    Jedna osovina', '    Dvije osovine', '    Tri osovine', '    Četiri osovine', '    Pet osovina',
             '    Šest i više osovina'))
-
         brOsPrik.place(x=21, y=255)
-
         brOsPrik.set("    Odaberite broj osovina")
-
         brOsPrik.bind("<FocusIn>", defocus)
 
         label11 = Label(root, text="Najveća dopuštena masa:", bg="#e6e6e6", fg="#222")
-
         label11.place(x=20, y=450)
-
         label11.config(font=("Arial", 12))
 
         maxNosPrik = ttk.Combobox(root, textvariable='Dopuštena masa', state='readonly', width=28, values=(
-
             '    do 750 kg', '    751 - 1000 kg', '    1001 - 2000 kg', '    2001 - 3000 kg', '    3001 - 3500 kg',
-
             '    3501 - 5000 kg', '    5001 - 6000 kg', '    6001 - 7000 kg', '    7001 - 8000 kg',
             '    8001 - 9000 kg',
-
             '    9001 - 10000 kg', '    10001 - 11000 kg', '    11001 - 12000 kg', '    12001 - 13000 kg',
-
             '    13001 - 14000 kg', '    14001 - 15000 kg', '    15001 - 16000 kg', '    16001 - 17000 kg',
-
             '    17001 - 18000 kg', '    18001 - 19000 kg', '    19001 - 20000 kg', '    20001 - 21000 kg',
-
             '    21001 - 22000 kg', '    22001 - 23000 kg', '    23001 - 24000 kg', '    preko 24000 kg'))
-
         maxNosPrik.place(x=21, y=475)
-
         maxNosPrik.set("    Najveća dopuštena masa")
-
         maxNosPrik.bind("<FocusIn>", defocus)
 
         zapaljiviPrV = IntVar()
-
         zapaljiviPr = Checkbutton(root, height=2, text='', variable=zapaljiviPrV, font='Arial 12', bg="#e6e6e6",
-
                                   fg="#222")
-
         zapaljiviPr.place(x=18, y=565)
-
         tkstPr = "Teretna prikolica povremeno ili stalno služi"
-
         tkstPr1 = "za prijevoz eksplozivnih i lako zapaljivih tvari"
 
         labeltkstPr = Label(root, text=tkstPr, bg="#e6e6e6", fg="#222")
-
         labeltkstPr.place(x=40, y=564)
-
         labeltkstPr.config(font=("Arial", 12))
 
         labeltkstPr1 = Label(root, text=tkstPr1, bg="#e6e6e6", fg="#222")
-
         labeltkstPr1.place(x=40, y=584)
-
         labeltkstPr1.config(font=("Arial", 12))
 
         zapaljiviPrV1 = IntVar()
-
         zapaljiviPr1 = Checkbutton(root, height=2, text='', variable=zapaljiviPrV1, font='Arial 12', bg="#e6e6e6",
-
                                    fg="#222")
-
         zapaljiviPr1.place(x=18, y=615)
 
         tkstPr = "Prikolica služi za prijevoz oštećenih i"
-
         tkstPr1 = "neispravnih osobnih automobila"
 
         labeltkstPr2 = Label(root, text=tkstPr, bg="#e6e6e6", fg="#222")
-
         labeltkstPr2.place(x=40, y=614)
-
         labeltkstPr2.config(font=("Arial", 12))
 
         labeltkstPr3 = Label(root, text=tkstPr1, bg="#e6e6e6", fg="#222")
-
         labeltkstPr3.place(x=40, y=634)
-
         labeltkstPr3.config(font=("Arial", 12))
 
         btn.place(x=96, y=669)
 
         def vrstaPrik(eventObject):
-
             if vrPrik.get() == '    O4':
-
                 global da, db, zast
-
                 da = Label(root, text="Prikolica / poluprikolica:", bg="#e6e6e6", fg="#222")
-
                 da.place(x=20, y=230)
-
                 da.config(font=("Arial", 12))
 
                 db = ttk.Combobox(root, textvariable='Odaberite', state='readonly', width=28, values=(
-
                     '    Poluprikolica DA', '    Prikolice DB i DC', '    Poluprikolica DA, prikolice DB, DC'))
-
                 db.set("    Odaberite")
-
                 db.place(x=20, y=255)
-
                 db.bind("<FocusIn>", defocus)
-
                 if vlz is True:
-
                     potvrdaovl.place(x=20, y=560)
-
                 elif regz is True:
-
                     potvrdaoreg.place(x=20, y=560)
-
                 label6.place(x=20, y=340)
-
                 godProz.place(x=21, y=365)
-
                 label7.place(x=20, y=395)
-
                 bonus.place(x=21, y=420)
-
                 pravno.place(x=20, y=590)
-
                 label9.place(x=20, y=450)
-
                 nosPrik.place(x=21, y=475)
-
                 label10.place(x=20, y=285)
-
                 brOsPrik.place(x=21, y=310)
-
                 label11.place(x=20, y=505)
-
                 maxNosPrik.place(x=21, y=530)
-
                 zapaljiviPr.place(x=18, y=620)
-
                 labeltkstPr.place(x=40, y=619)
-
                 labeltkstPr1.place(x=40, y=639)
-
                 zapaljiviPr1.place(x=18, y=670)
-
                 labeltkstPr2.place(x=40, y=669)
-
                 labeltkstPr3.place(x=40, y=689)
-
                 btn.place(x=96, y=724)
 
                 zast = True
-
             else:
-
                 if zast is True:
                     da.destroy()
-
                     db.destroy()
-
                 zast = False
-
                 if vlz is True:
-
                     potvrdaovl.place(x=20, y=505)
-
                 elif regz is True:
-
                     potvrdaoreg.place(x=20, y=505)
-
                 pravno.place(x=20, y=535)
-
                 label9.place(x=20, y=395)
-
                 nosPrik.place(x=21, y=420)
-
                 label10.place(x=20, y=230)
-
                 brOsPrik.place(x=21, y=255)
-
                 label11.place(x=20, y=450)
-
                 maxNosPrik.place(x=21, y=475)
-
                 zapaljiviPr.place(x=18, y=565)
-
                 labeltkstPr.place(x=40, y=564)
-
                 labeltkstPr1.place(x=40, y=584)
-
                 zapaljiviPr1.place(x=18, y=615)
-
                 labeltkstPr2.place(x=40, y=614)
-
                 labeltkstPr3.place(x=40, y=634)
-
                 label6.place(x=20, y=285)
-
                 godProz.place(x=21, y=310)
-
                 label7.place(x=20, y=340)
-
                 bonus.place(x=21, y=365)
-
                 btn.place(x=96, y=669)
 
         vrPrik.bind("<<ComboboxSelected>>", vrstaPrik)
 
-
     elif vrstaVoz.get() == '    Motocikl':
-
         label4.destroy()
-
         snaga.destroy()
-
         vrstaGor.destroy()
-
         label5.destroy()
-
         if vrstaReg.get() == '    Produženje registracije':
-
             potvrdaoreg = Checkbutton(root, text='Potvrda o registraciji', variable=potvrdaRegV, font='Arial 12',
-
                                       bg="#e6e6e6",
-
                                       fg="#222")
-
             potvrdaoreg.place(x=18, y=395)
-
             regz = True
-
         elif vrstaReg.get() == '    Prva registracija':
-
             potvrdaovl = Checkbutton(root, text='Potvrda o vlasništvu', variable=potvrdaVlV, font='Arial 12',
-
                                      bg="#e6e6e6",
-
                                      fg="#222")
-
             potvrdaovl.place(x=18, y=395)
-
             vlz = True
 
         if m is True:
             kat.destroy()
-
             label10.destroy()
-
             kolica.destroy()
-
             rvi.destroy()
-
             labeltkstM.destroy()
-
             labeltkstM1.destroy()
-
             pravno.destroy()
-
             ug.destroy()
 
         if p is True:
             terensko.destroy()
-
             taxi.destroy()
-
             rent.destroy()
-
             kombi.destroy()
-
             kombiTeret.destroy()
-
             invalid.destroy()
-
             ug.destroy()
-
             pravno.destroy()
-
             label401.destroy()
-
             an.destroy()
 
         if pr is True:
-
             if zast is True:
                 label6.place(x=20, y=285)
-
                 godProz.place(x=21, y=310)
-
                 label7.place(x=20, y=340)
-
                 bonus.place(x=21, y=365)
-
                 da.destroy()
-
                 db.destroy()
-
                 zast = False
-
             label3 = Label(root, text="Zapremina motora:", bg="#e6e6e6", fg="#222")
-
             label3.place(x=20, y=175)
-
             label3.config(font=("Arial", 12))
 
             zapremina = ttk.Entry(root, width=30, justify=CENTER)
-
             zapremina.place(x=21, y=200)
-
             zapremina.config(font=("Arial", 11))
 
             vrPrik.destroy()
-
             label8.destroy()
-
             nosPrik.destroy()
-
             label9.destroy()
-
             brOsPrik.destroy()
-
             label10.destroy()
-
             maxNosPrik.destroy()
-
             label11.destroy()
-
             pravno.destroy()
-
             zapaljiviPr.destroy()
-
             zapaljiviPr1.destroy()
-
             labeltkstPr2.destroy()
-
             labeltkstPr1.destroy()
-
             labeltkstPr.destroy()
-
             labeltkstPr3.destroy()
-
             pr = False
 
         if t is True:
             label3.place(x=20, y=175)
-
             zapremina.place(x=21, y=200)
-
             sedlastiTeg.destroy()
-
             label8.destroy()
-
             vrTer.destroy()
-
             label9.destroy()
-
             nosTer.destroy()
-
             label10.destroy()
-
             brOs.destroy()
-
             label11.destroy()
-
             maxNos.destroy()
-
             zapaljivi.destroy()
-
             labeltkstT.destroy()
-
             labeltkstT1.destroy()
-
             t = False
 
         m = True
 
         pravno = Checkbutton(root, text='Pravno lice', variable=pravnoV, font='Arial 12', bg="#e6e6e6",
-
                              fg="#222")
-
         pravno.place(x=18, y=425)
 
         ug = Checkbutton(root, text="Komisioni ugovor", variable=ugV,
-
                          font='Arial 12', bg="#e6e6e6", fg="#222")
-
         ug.place(x=18, y=455)
 
         label10 = Label(root, text="Kategorija motocikla:", bg="#e6e6e6", fg="#222")
-
         label10.place(x=20, y=230)
-
         label10.config(font=("Arial", 12))
 
         kat = ttk.Combobox(root, textvariable='Kategorija motocikla', state='readonly', width=28, values=(
-
             '    L1', '    L2', '    L3', '    L4', '    L5', '    L6',
-
             '    L7'))
-
         kat.place(x=21, y=255)
-
         kat.set("    Odaberite kategoriju motocikla")
-
         kat.bind("<FocusIn>", defocus)
 
         label6.place(x=20, y=285)
-
         godProz.place(x=21, y=310)
-
         label7.place(x=20, y=340)
-
         bonus.place(x=21, y=365)
 
         kolica = Checkbutton(root, text='Invalidska kolica sa motorom', variable=kolicaV, font='Arial 12', bg="#e6e6e6",
-
                              fg="#222")
-
         kolica.place(x=18, y=485)
 
         tkstM = "RVI, civilni invalidi i invalidi rada, minimalno"
-
         tkstM1 = "80% tjelesnih oštećenja"
 
         rvi = Checkbutton(root, height=2, text="", variable=rviV, font='Arial 12', bg="#e6e6e6", fg="#222")
-
         rvi.place(x=18, y=515)
 
         labeltkstM = Label(root, text=tkstM, bg="#e6e6e6", fg="#222")
-
         labeltkstM.place(x=40, y=514)
-
         labeltkstM.config(font=("Arial", 12))
 
         labeltkstM1 = Label(root, text=tkstM1, bg="#e6e6e6", fg="#222")
-
         labeltkstM1.place(x=40, y=534)
-
         labeltkstM1.config(font=("Arial", 12))
 
         btn.place(x=96, y=569)
@@ -1462,7 +1217,7 @@ def checkcmbo():
     zastitaVoda = 20
     stiker = 5
     zeleniK = 4
-    dodatak = 0.00
+    dodatak = 0
     if pravnoV.get() == 1:
         fond = 20
     else:
@@ -1495,7 +1250,6 @@ def checkcmbo():
         elif vrTer.get() == '    N3':
             tehnicki = 135.16
 
-
         if maxNos.get() == '    do 1000 kg':
             putarina60 = 32.94
             putarina40 = 21.96
@@ -1508,7 +1262,7 @@ def checkcmbo():
         elif maxNos.get() == '    3001 - 3500 kg':
             putarina60 = 70.56
             putarina40 = 47.04
-        elif maxNos.get() ==  '    3501 - 5000 kg':
+        elif maxNos.get() == '    3501 - 5000 kg':
             putarina60 = 72
             putarina40 = 48
         elif maxNos.get() == '    5001 - 6000 kg':
@@ -1698,10 +1452,9 @@ def checkcmbo():
                 putarina60 = 696.06
                 putarina40 = 464.04
 
-
         if nosTer.get() == '    do 0.5 t' or nosTer.get() == '    preko 0.5 - 1.0 t' or nosTer.get() == '    preko 1.0 - 2.0 t' \
-           or nosTer.get() == '    preko 2.0 - 3.0 t':
-           porez = 70
+                or nosTer.get() == '    preko 2.0 - 3.0 t':
+            porez = 70
         elif nosTer.get() == '    preko 3.0 - 5.0 t' or nosTer.get() == '    preko 5.0 - 7.0 t' or nosTer.get() == '    preko 7.0 - 10.0 t':
             porez = 100
         elif nosTer.get() == '    preko 10.0 - 15.0 t':
@@ -1729,6 +1482,22 @@ def checkcmbo():
                     polica = 268.00
                 elif bonus.get() == '    50%':
                     polica = 243.00
+                elif bonus.get() == '   110%':
+                    polica = 536.00
+                elif bonus.get() == '   120%':
+                    polica = 584.00
+                elif bonus.get() == '   130%':
+                    polica = 633.00
+                elif bonus.get() == '   140%':
+                    polica = 682.00
+                elif bonus.get() == '   150%':
+                    polica = 731.00
+                elif bonus.get() == '   160%':
+                    polica = 779.00
+                elif bonus.get() == '   180%':
+                    polica = 877.00
+                elif bonus.get() == '   200%':
+                    polica = 974.00
 
             elif nosTer.get() == '    preko 0.5 - 1.0 t':
                 polica = 513.00
@@ -1750,6 +1519,23 @@ def checkcmbo():
                     polica = 282.00
                 elif bonus.get() == '    50%':
                     polica = 257.00
+                elif bonus.get() == '   110%':
+                    polica = 564.00
+                elif bonus.get() == '   120%':
+                    polica = 616.00
+                elif bonus.get() == '   130%':
+                    polica = 667.00
+                elif bonus.get() == '   140%':
+                    polica = 718.00
+                elif bonus.get() == '   150%':
+                    polica = 770.00
+                elif bonus.get() == '   160%':
+                    polica = 821.00
+                elif bonus.get() == '   180%':
+                    polica = 923.00
+                elif bonus.get() == '   200%':
+                    polica = 1026.00
+
             elif nosTer.get() == '    preko 1.0 - 2.0 t':
                 polica = 692.00
                 if bonus.get() == '    10%':
@@ -1770,6 +1556,23 @@ def checkcmbo():
                     polica = 381.00
                 elif bonus.get() == '    50%':
                     polica = 346.00
+                elif bonus.get() == '   110%':
+                    polica = 761.00
+                elif bonus.get() == '   120%':
+                    polica = 830.00
+                elif bonus.get() == '   130%':
+                    polica = 900.00
+                elif bonus.get() == '   140%':
+                    polica = 969.00
+                elif bonus.get() == '   150%':
+                    polica = 1038.00
+                elif bonus.get() == '   160%':
+                    polica = 1107.00
+                elif bonus.get() == '   180%':
+                    polica = 1246.00
+                elif bonus.get() == '   200%':
+                    polica = 1384.00
+
             elif nosTer.get() == '    preko 2.0 - 3.0 t':
                 polica = 800.00
                 if bonus.get() == '    10%':
@@ -1790,6 +1593,23 @@ def checkcmbo():
                     polica = 440.00
                 elif bonus.get() == '    50%':
                     polica = 400.00
+                elif bonus.get() == '   110%':
+                    polica = 880.00
+                elif bonus.get() == '   120%':
+                    polica = 960.00
+                elif bonus.get() == '   130%':
+                    polica = 1040.00
+                elif bonus.get() == '   140%':
+                    polica = 1120.00
+                elif bonus.get() == '   150%':
+                    polica = 1200.00
+                elif bonus.get() == '   160%':
+                    polica = 1280.00
+                elif bonus.get() == '   180%':
+                    polica = 1440.00
+                elif bonus.get() == '   200%':
+                    polica = 1600.00
+
             elif nosTer.get() == '    preko 3.0 - 5.0 t':
                 polica = 1011.00
                 if bonus.get() == '    10%':
@@ -1810,6 +1630,23 @@ def checkcmbo():
                     polica = 556.00
                 elif bonus.get() == '    50%':
                     polica = 505.00
+                elif bonus.get() == '   110%':
+                    polica = 1112.00
+                elif bonus.get() == '   120%':
+                    polica = 1213.00
+                elif bonus.get() == '   130%':
+                    polica = 1314.00
+                elif bonus.get() == '   140%':
+                    polica = 1415.00
+                elif bonus.get() == '   150%':
+                    polica = 1517.00
+                elif bonus.get() == '   160%':
+                    polica = 1618.00
+                elif bonus.get() == '   180%':
+                    polica = 1820.00
+                elif bonus.get() == '   200%':
+                    polica = 2022.00
+
             elif nosTer.get() == '    preko 5.0 - 7.0 t':
                 polica = 1319.00
                 if bonus.get() == '    10%':
@@ -1830,6 +1667,23 @@ def checkcmbo():
                     polica = 725.00
                 elif bonus.get() == '    50%':
                     polica = 659.00
+                elif bonus.get() == '   110%':
+                    polica = 1451.00
+                elif bonus.get() == '   120%':
+                    polica = 1583.00
+                elif bonus.get() == '   130%':
+                    polica = 1715.00
+                elif bonus.get() == '   140%':
+                    polica = 1847.00
+                elif bonus.get() == '   150%':
+                    polica = 1979.00
+                elif bonus.get() == '   160%':
+                    polica = 2110.00
+                elif bonus.get() == '   180%':
+                    polica = 2374.00
+                elif bonus.get() == '   200%':
+                    polica = 2638.00
+
             elif nosTer.get() == '    preko 7.0 - 10.0 t':
                 polica = 1907.00
                 if bonus.get() == '    10%':
@@ -1850,6 +1704,23 @@ def checkcmbo():
                     polica = 1049.00
                 elif bonus.get() == '    50%':
                     polica = 953.00
+                elif bonus.get() == '   110%':
+                    polica = 2098.00
+                elif bonus.get() == '   120%':
+                    polica = 2288.00
+                elif bonus.get() == '   130%':
+                    polica = 2479.00
+                elif bonus.get() == '   140%':
+                    polica = 2670.00
+                elif bonus.get() == '   150%':
+                    polica = 2861.00
+                elif bonus.get() == '   160%':
+                    polica = 3051.00
+                elif bonus.get() == '   180%':
+                    polica = 3433.00
+                elif bonus.get() == '   200%':
+                    polica = 3814.00
+
             elif nosTer.get() == '    preko 10.0 - 15.0 t':
                 polica = 2499.00
                 if bonus.get() == '    10%':
@@ -1870,6 +1741,22 @@ def checkcmbo():
                     polica = 1375.00
                 elif bonus.get() == '    50%':
                     polica = 1250.00
+                elif bonus.get() == '   110%':
+                    polica = 2749.00
+                elif bonus.get() == '   120%':
+                    polica = 2999.00
+                elif bonus.get() == '   130%':
+                    polica = 3249.00
+                elif bonus.get() == '   140%':
+                    polica = 3499.00
+                elif bonus.get() == '   150%':
+                    polica = 3749.00
+                elif bonus.get() == '   160%':
+                    polica = 3998.00
+                elif bonus.get() == '   180%':
+                    polica = 4498.00
+                elif bonus.get() == '   200%':
+                    polica = 4998.00
             elif nosTer.get() == '    preko 15.0 t':
                 polica = 3239.00
                 if bonus.get() == '    10%':
@@ -1890,6 +1777,22 @@ def checkcmbo():
                     polica = 1781.00
                 elif bonus.get() == '    50%':
                     polica = 1619.00
+                elif bonus.get() == '   110%':
+                    polica = 3563.00
+                elif bonus.get() == '   120%':
+                    polica = 3887.00
+                elif bonus.get() == '   130%':
+                    polica = 4211.00
+                elif bonus.get() == '   140%':
+                    polica = 4535.00
+                elif bonus.get() == '   150%':
+                    polica = 4859.00
+                elif bonus.get() == '   160%':
+                    polica = 5182.00
+                elif bonus.get() == '   180%':
+                    polica = 5830.00
+                elif bonus.get() == '   200%':
+                    polica = 6478.00
         else:
             if snaga.get() == '    do 18 kW':
                 polica = 452.00
@@ -1911,6 +1814,22 @@ def checkcmbo():
                     polica = 249.00
                 elif bonus.get() == '    50%':
                     polica = 226.00
+                elif bonus.get() == '   110%':
+                    polica = 497.00
+                elif bonus.get() == '   120%':
+                    polica = 542.00
+                elif bonus.get() == '   130%':
+                    polica = 588.00
+                elif bonus.get() == '   140%':
+                    polica = 633.00
+                elif bonus.get() == '   150%':
+                    polica = 678.00
+                elif bonus.get() == '   160%':
+                    polica = 723.00
+                elif bonus.get() == '   180%':
+                    polica = 814.00
+                elif bonus.get() == '   200%':
+                    polica = 904.00
 
             elif snaga.get() == '    19 kW - 25 kW':
                 polica = 648.00
@@ -1932,6 +1851,22 @@ def checkcmbo():
                     polica = 356.00
                 elif bonus.get() == '    50%':
                     polica = 324.00
+                elif bonus.get() == '   110%':
+                    polica = 713.00
+                elif bonus.get() == '   120%':
+                    polica = 778.00
+                elif bonus.get() == '   130%':
+                    polica = 842.00
+                elif bonus.get() == '   140%':
+                    polica = 907.00
+                elif bonus.get() == '   150%':
+                    polica = 972.00
+                elif bonus.get() == '   160%':
+                    polica = 1037.00
+                elif bonus.get() == '   180%':
+                    polica = 1166.00
+                elif bonus.get() == '   200%':
+                    polica = 1296.00
             elif snaga.get() == '    26 kW - 33 kW':
                 polica = 743.00
                 if bonus.get() == '    10%':
@@ -1952,6 +1887,22 @@ def checkcmbo():
                     polica = 408.00
                 elif bonus.get() == '    50%':
                     polica = 371.00
+                elif bonus.get() == '   110%':
+                    polica = 817.00
+                elif bonus.get() == '   120%':
+                    polica = 892.00
+                elif bonus.get() == '   130%':
+                    polica = 966.00
+                elif bonus.get() == '   140%':
+                    polica = 1040.00
+                elif bonus.get() == '   150%':
+                    polica = 1115.00
+                elif bonus.get() == '   160%':
+                    polica = 1189.00
+                elif bonus.get() == '   180%':
+                    polica = 1337.00
+                elif bonus.get() == '   200%':
+                    polica = 1486.00
             elif snaga.get() == '    34 kW - 44 kW':
                 polica = 908.00
                 if bonus.get() == '    10%':
@@ -1972,6 +1923,22 @@ def checkcmbo():
                     polica = 500.00
                 elif bonus.get() == '    50%':
                     polica = 454.00
+                elif bonus.get() == '   110%':
+                    polica = 999.00
+                elif bonus.get() == '   120%':
+                    polica = 1090.00
+                elif bonus.get() == '   130%':
+                    polica = 1180.00
+                elif bonus.get() == '   140%':
+                    polica = 1271.00
+                elif bonus.get() == '   150%':
+                    polica = 1362.00
+                elif bonus.get() == '   160%':
+                    polica = 1453.00
+                elif bonus.get() == '   180%':
+                    polica = 1634.00
+                elif bonus.get() == '   200%':
+                    polica = 1816.00
             elif snaga.get() == '    45 kW - 73 kW':
                 polica = 1269.00
                 if bonus.get() == '    10%':
@@ -1992,6 +1959,22 @@ def checkcmbo():
                     polica = 698.00
                 elif bonus.get() == '    50%':
                     polica = 635.00
+                elif bonus.get() == '   110%':
+                    polica = 1396.00
+                elif bonus.get() == '   120%':
+                    polica = 1523.00
+                elif bonus.get() == '   130%':
+                    polica = 1650.00
+                elif bonus.get() == '   140%':
+                    polica = 1777.00
+                elif bonus.get() == '   150%':
+                    polica = 1904.00
+                elif bonus.get() == '   160%':
+                    polica = 2030.00
+                elif bonus.get() == '   180%':
+                    polica = 2284.00
+                elif bonus.get() == '   200%':
+                    polica = 2538.00
             elif snaga.get() == '    74 kW - 110 kW':
                 polica = 1861.00
                 if bonus.get() == '    10%':
@@ -2012,6 +1995,22 @@ def checkcmbo():
                     polica = 1024.00
                 elif bonus.get() == '    50%':
                     polica = 931.00
+                elif bonus.get() == '   110%':
+                    polica = 2047.00
+                elif bonus.get() == '   120%':
+                    polica = 2233.00
+                elif bonus.get() == '   130%':
+                    polica = 2419.00
+                elif bonus.get() == '   140%':
+                    polica = 2605.00
+                elif bonus.get() == '   150%':
+                    polica = 2792.00
+                elif bonus.get() == '   160%':
+                    polica = 2978.00
+                elif bonus.get() == '   180%':
+                    polica = 3350.00
+                elif bonus.get() == '   200%':
+                    polica = 3722.00
             elif snaga.get() == '    111 kW - 147 kW':
                 polica = 2524.00
                 if bonus.get() == '    10%':
@@ -2032,6 +2031,22 @@ def checkcmbo():
                     polica = 1388.00
                 elif bonus.get() == '    50%':
                     polica = 1262.00
+                elif bonus.get() == '   110%':
+                    polica = 2776.00
+                elif bonus.get() == '   120%':
+                    polica = 3029.00
+                elif bonus.get() == '   130%':
+                    polica = 3281.00
+                elif bonus.get() == '   140%':
+                    polica = 3534.00
+                elif bonus.get() == '   150%':
+                    polica = 3786.00
+                elif bonus.get() == '   160%':
+                    polica = 4038.00
+                elif bonus.get() == '   180%':
+                    polica = 4543.00
+                elif bonus.get() == '   200%':
+                    polica = 5048.00
             elif snaga.get() == '    preko 147 kW':
                 polica = 3185.00
                 if bonus.get() == '    10%':
@@ -2052,13 +2067,28 @@ def checkcmbo():
                     polica = 1752.00
                 elif bonus.get() == '    50%':
                     polica = 1592.00
+                elif bonus.get() == '   110%':
+                    polica = 3504.00
+                elif bonus.get() == '   120%':
+                    polica = 3822.00
+                elif bonus.get() == '   130%':
+                    polica = 4141.00
+                elif bonus.get() == '   140%':
+                    polica = 4459.00
+                elif bonus.get() == '   150%':
+                    polica = 4778.00
+                elif bonus.get() == '   160%':
+                    polica = 5096.00
+                elif bonus.get() == '   180%':
+                    polica = 5733.00
+                elif bonus.get() == '   200%':
+                    polica = 6370.00
 
         if zapaljiviV.get() == 1:
             dodatak = polica * 15 / 100
 
         polica += dodatak
-        
-       
+
         if int(zapremina.get()) < 1401:
             okolis = 0
         elif 2001 > int(zapremina.get()) > 1400:
@@ -2162,13 +2192,13 @@ def checkcmbo():
             komUg = 20
 
         if vrstaGor.get() == '    Dizel':
-            tehnicki = 92
+            tehnicki = 91
         else:
-            tehnicki = 88
+            tehnicki = 87
             if int(godProz.get()) > 1992:
-                tehnicki = 88
+                tehnicki = 87
             else:
-                tehnicki = 76
+                tehnicki = 77
 
         if 751 > int(zapremina.get()) > 250:
             if year_ - int(godProz.get()) > 30:
@@ -2275,6 +2305,22 @@ def checkcmbo():
                 polica = 127.00
             elif bonus.get() == '    50%':
                 polica = 115.00
+            elif bonus.get() == '   110%':
+                polica = 253.00
+            elif bonus.get() == '   120%':
+                polica = 276.00
+            elif bonus.get() == '   130%':
+                polica = 299.00
+            elif bonus.get() == '   140%':
+                polica = 322.00
+            elif bonus.get() == '   150%':
+                polica = 345.00
+            elif bonus.get() == '   160%':
+                polica = 368.00
+            elif bonus.get() == '   180%':
+                polica = 414.00
+            elif bonus.get() == '   200%':
+                polica = 460.00
 
         elif snaga.get() == '    23 kW - 33 kW':
             polica = 328.00
@@ -2301,6 +2347,23 @@ def checkcmbo():
                 polica = 181.00
             elif bonus.get() == '    50%':
                 polica = 164.00
+            elif bonus.get() == '   110%':
+                polica = 361.00
+            elif bonus.get() == '   120%':
+                polica = 394.00
+            elif bonus.get() == '   130%':
+                polica = 426.00
+            elif bonus.get() == '   140%':
+                polica = 459.00
+            elif bonus.get() == '   150%':
+                polica = 492.00
+            elif bonus.get() == '   160%':
+                polica = 525.00
+            elif bonus.get() == '   180%':
+                polica = 590.00
+            elif bonus.get() == '   200%':
+                polica = 656.00
+
 
         elif snaga.get() == '    34 kW - 44 kW':
             polica = 396.00
@@ -2327,6 +2390,22 @@ def checkcmbo():
                 polica = 218.00
             elif bonus.get() == '    50%':
                 polica = 198.00
+            elif bonus.get() == '   110%':
+                polica = 436.00
+            elif bonus.get() == '   120%':
+                polica = 475.00
+            elif bonus.get() == '   130%':
+                polica = 515.00
+            elif bonus.get() == '   140%':
+                polica = 554.00
+            elif bonus.get() == '   150%':
+                polica = 594.00
+            elif bonus.get() == '   160%':
+                polica = 634.00
+            elif bonus.get() == '   180%':
+                polica = 713.00
+            elif bonus.get() == '   200%':
+                polica = 792.00
 
         elif snaga.get() == '    45 kW - 55 kW':
             polica = 461.00
@@ -2353,6 +2432,22 @@ def checkcmbo():
                 polica = 253.00
             elif bonus.get() == '    50%':
                 polica = 230.00
+            elif bonus.get() == '   110%':
+                polica = 507.00
+            elif bonus.get() == '   120%':
+                polica = 553.00
+            elif bonus.get() == '   130%':
+                polica = 599.00
+            elif bonus.get() == '   140%':
+                polica = 645.00
+            elif bonus.get() == '   150%':
+                polica = 692.00
+            elif bonus.get() == '   160%':
+                polica = 738.00
+            elif bonus.get() == '   180%':
+                polica = 830.00
+            elif bonus.get() == '   200%':
+                polica = 922.00
 
         elif snaga.get() == '    56 kW - 66 kW':
             polica = 525.00
@@ -2379,6 +2474,22 @@ def checkcmbo():
                 polica = 289.00
             elif bonus.get() == '    50%':
                 polica = 263.00
+            elif bonus.get() == '   110%':
+                polica = 578.00
+            elif bonus.get() == '   120%':
+                polica = 630.00
+            elif bonus.get() == '   130%':
+                polica = 683.00
+            elif bonus.get() == '   140%':
+                polica = 735.00
+            elif bonus.get() == '   150%':
+                polica = 788.00
+            elif bonus.get() == '   160%':
+                polica = 840.00
+            elif bonus.get() == '   180%':
+                polica = 945.00
+            elif bonus.get() == '   200%':
+                polica = 1050.00
 
         elif snaga.get() == '    67 kW - 84 kW':
             polica = 578.00
@@ -2405,6 +2516,22 @@ def checkcmbo():
                 polica = 318.00
             elif bonus.get() == '    50%':
                 polica = 289.00
+            elif bonus.get() == '   110%':
+                polica = 636.00
+            elif bonus.get() == '   120%':
+                polica = 694.00
+            elif bonus.get() == '   130%':
+                polica = 751.00
+            elif bonus.get() == '   140%':
+                polica = 809.00
+            elif bonus.get() == '   150%':
+                polica = 867.00
+            elif bonus.get() == '   160%':
+                polica = 925.00
+            elif bonus.get() == '   180%':
+                polica = 1040.00
+            elif bonus.get() == '   200%':
+                polica = 1156.00
 
         elif snaga.get() == '    85 kW - 110 kW':
             polica = 692.00
@@ -2431,6 +2558,22 @@ def checkcmbo():
                 polica = 380.00
             elif bonus.get() == '    50%':
                 polica = 346.00
+            elif bonus.get() == '   110%':
+                polica = 761.00
+            elif bonus.get() == '   120%':
+                polica = 830.00
+            elif bonus.get() == '   130%':
+                polica = 900.00
+            elif bonus.get() == '   140%':
+                polica = 969.00
+            elif bonus.get() == '   150%':
+                polica = 1038.00
+            elif bonus.get() == '   160%':
+                polica = 1107.00
+            elif bonus.get() == '   180%':
+                polica = 1246.00
+            elif bonus.get() == '   200%':
+                polica = 1384.00
 
         elif snaga.get() == '    preko 110 kW':
             polica = 831.00
@@ -2457,6 +2600,22 @@ def checkcmbo():
                 polica = 457.00
             elif bonus.get() == '    50%':
                 polica = 416.00
+            elif bonus.get() == '   110%':
+                polica = 914.00
+            elif bonus.get() == '   120%':
+                polica = 997.00
+            elif bonus.get() == '   130%':
+                polica = 1080.00
+            elif bonus.get() == '   140%':
+                polica = 1163.00
+            elif bonus.get() == '   150%':
+                polica = 1247.00
+            elif bonus.get() == '   160%':
+                polica = 1330.00
+            elif bonus.get() == '   180%':
+                polica = 1496.00
+            elif bonus.get() == '   200%':
+                polica = 1662.00
 
         if taxiV.get() == 1:
             dodatak = polica * 40 / 100
@@ -2469,18 +2628,54 @@ def checkcmbo():
 
         polica += dodatak
 
-        if an.get() == '    5.22 KM':
-            polica += 5.22
-        elif an.get() == '    6.53 KM':
-            polica += 6.53
-        elif an.get() == '    7.18 KM':
-            polica += 7.18
-        elif an.get() == '    7.83 KM':
-            polica += 7.83
-        elif an.get() == '  10.44 KM':
-            polica += 10.44
-        elif an.get() == '  13.05 KM':
-            polica += 13.05
+        if an.get() == '    2.85 KM':
+            polica += 2.85
+        elif an.get() == '    5.70 KM':
+            polica += 5.70
+        elif an.get() == '    8.55 KM':
+            polica += 8.55
+        elif an.get() == '  11.40 KM':
+            polica += 11.40
+        elif an.get() == '  14.25 KM':
+            polica += 14.25
+        elif an.get() == '  17.10 KM':
+            polica += 17.10
+        elif an.get() == '  19.95 KM':
+            polica += 19.95
+        elif an.get() == '  22.80 KM':
+            polica += 22.80
+        elif an.get() == '  25.65 KM':
+            polica += 25.65
+        elif an.get() == '  28.50 KM':
+            polica += 28.50
+        elif an.get() == '  31.35 KM':
+            polica += 31.35
+        elif an.get() == '  34.20 KM':
+            polica += 34.20
+        elif an.get() == '  39.90 KM':
+            polica += 39.90
+        elif an.get() == '  42.75 KM':
+            polica += 42.75
+        elif an.get() == '  45.60 KM':
+            polica += 45.60
+        elif an.get() == '  48.45 KM':
+            polica += 48.45
+        elif an.get() == '  51.30 KM':
+            polica += 51.30
+        elif an.get() == '  54.15 KM':
+            polica += 54.15
+        elif an.get() == '  57.00 KM':
+            polica += 57.00
+        elif an.get() == '  59.85 KM':
+            polica += 59.85
+        elif an.get() == '  62.70 KM':
+            polica += 62.70
+        elif an.get() == '  65.55 KM':
+            polica += 65.55
+        elif an.get() == '  68.40 KM':
+            polica += 68.40
+        elif an.get() == '  71.25 KM':
+            polica += 71.25
 
         if int(zapremina.get()) < 1001:
             putarina60 = 28.8
@@ -2575,8 +2770,8 @@ def checkcmbo():
             elif maxNosPrik.get() == '    3001 - 3500 kg':
                 putarina60 = 66.06
                 putarina40 = 44.04
-        if vrPrik.get() ==  '    O3':
-            if maxNosPrik.get() ==  '    3501 - 5000 kg':
+        if vrPrik.get() == '    O3':
+            if maxNosPrik.get() == '    3501 - 5000 kg':
                 putarina60 = 90
                 putarina40 = 60
             elif maxNosPrik.get() == '    5001 - 6000 kg':
@@ -2785,6 +2980,22 @@ def checkcmbo():
                 polica = 18.00
             elif bonus.get() == '    50%':
                 polica = 16.00
+            elif bonus.get() == '   110%':
+                polica = 35.00
+            elif bonus.get() == '   120%':
+                polica = 38.00
+            elif bonus.get() == '   130%':
+                polica = 42.00
+            elif bonus.get() == '   140%':
+                polica = 45.00
+            elif bonus.get() == '   150%':
+                polica = 48.00
+            elif bonus.get() == '   160%':
+                polica = 51.00
+            elif bonus.get() == '   180%':
+                polica = 58.00
+            elif bonus.get() == '   200%':
+                polica = 64.00
         elif nosPrik.get() == '    preko 1 - 3 t':
             polica = 33.00
             if bonus.get() == '    10%':
@@ -2805,6 +3016,22 @@ def checkcmbo():
                 polica = 18.00
             elif bonus.get() == '    50%':
                 polica = 17.00
+            elif bonus.get() == '   110%':
+                polica = 36.00
+            elif bonus.get() == '   120%':
+                polica = 40.00
+            elif bonus.get() == '   130%':
+                polica = 43.00
+            elif bonus.get() == '   140%':
+                polica = 46.00
+            elif bonus.get() == '   150%':
+                polica = 50.00
+            elif bonus.get() == '   160%':
+                polica = 53.00
+            elif bonus.get() == '   180%':
+                polica = 59.00
+            elif bonus.get() == '   200%':
+                polica = 66.00
         elif nosPrik.get() == '    preko 3 - 5 t':
             polica = 35.00
             if bonus.get() == '    10%':
@@ -2825,6 +3052,22 @@ def checkcmbo():
                 polica = 19.00
             elif bonus.get() == '    50%':
                 polica = 18.00
+            elif bonus.get() == '   110%':
+                polica = 39.00
+            elif bonus.get() == '   120%':
+                polica = 42.00
+            elif bonus.get() == '   130%':
+                polica = 46.00
+            elif bonus.get() == '   140%':
+                polica = 49.00
+            elif bonus.get() == '   150%':
+                polica = 53.00
+            elif bonus.get() == '   160%':
+                polica = 56.00
+            elif bonus.get() == '   180%':
+                polica = 63.00
+            elif bonus.get() == '   200%':
+                polica = 70.00
         elif nosPrik.get() == '    preko 5 - 10 t':
             polica = 38.00
             if bonus.get() == '    10%':
@@ -2845,6 +3088,22 @@ def checkcmbo():
                 polica = 21.00
             elif bonus.get() == '    50%':
                 polica = 19.00
+            elif bonus.get() == '   110%':
+                polica = 42.00
+            elif bonus.get() == '   120%':
+                polica = 46.00
+            elif bonus.get() == '   130%':
+                polica = 49.00
+            elif bonus.get() == '   140%':
+                polica = 53.00
+            elif bonus.get() == '   150%':
+                polica = 57.00
+            elif bonus.get() == '   160%':
+                polica = 61.00
+            elif bonus.get() == '   180%':
+                polica = 68.00
+            elif bonus.get() == '   200%':
+                polica = 76.00
         elif nosPrik.get() == '    preko 10 - 15 t':
             polica = 43.00
             if bonus.get() == '    10%':
@@ -2865,6 +3124,22 @@ def checkcmbo():
                 polica = 24.00
             elif bonus.get() == '    50%':
                 polica = 22.00
+            elif bonus.get() == '   110%':
+                polica = 47.00
+            elif bonus.get() == '   120%':
+                polica = 52.00
+            elif bonus.get() == '   130%':
+                polica = 56.00
+            elif bonus.get() == '   140%':
+                polica = 60.00
+            elif bonus.get() == '   150%':
+                polica = 65.00
+            elif bonus.get() == '   160%':
+                polica = 69.00
+            elif bonus.get() == '   180%':
+                polica = 77.00
+            elif bonus.get() == '   200%':
+                polica = 86.00
         elif nosPrik.get() == '    preko 15 - 20 t':
             polica = 48.00
             if bonus.get() == '    10%':
@@ -2885,6 +3160,22 @@ def checkcmbo():
                 polica = 26.00
             elif bonus.get() == '    50%':
                 polica = 24.00
+            elif bonus.get() == '   110%':
+                polica = 53.00
+            elif bonus.get() == '   120%':
+                polica = 58.00
+            elif bonus.get() == '   130%':
+                polica = 62.00
+            elif bonus.get() == '   140%':
+                polica = 67.00
+            elif bonus.get() == '   150%':
+                polica = 72.00
+            elif bonus.get() == '   160%':
+                polica = 77.00
+            elif bonus.get() == '   180%':
+                polica = 86.00
+            elif bonus.get() == '   200%':
+                polica = 96.00
         elif nosPrik.get() == '    preko 20 t':
             polica = 52.00
             if bonus.get() == '    10%':
@@ -2905,6 +3196,22 @@ def checkcmbo():
                 polica = 29.00
             elif bonus.get() == '    50%':
                 polica = 26.00
+            elif bonus.get() == '   110%':
+                polica = 57.00
+            elif bonus.get() == '   120%':
+                polica = 62.00
+            elif bonus.get() == '   130%':
+                polica = 68.00
+            elif bonus.get() == '   140%':
+                polica = 73.00
+            elif bonus.get() == '   150%':
+                polica = 78.00
+            elif bonus.get() == '   160%':
+                polica = 83.00
+            elif bonus.get() == '   180%':
+                polica = 94.00
+            elif bonus.get() == '   200%':
+                polica = 104.00
 
         if zapaljiviPrV.get() == 1:
             dodatak = polica * 15 / 100
@@ -2915,7 +3222,6 @@ def checkcmbo():
 
     if vrstaVoz.get() == '    Motocikl':
         pomocPut = 4
-
         if vrstaReg.get() == '    Prva registracija':
             regTab = 10
 
@@ -2967,6 +3273,22 @@ def checkcmbo():
                 polica = 18.00
             elif bonus.get() == '    50%':
                 polica = 16.00
+            elif bonus.get() == '   110%':
+                polica = 36.00
+            elif bonus.get() == '   120%':
+                polica = 40.00
+            elif bonus.get() == '   130%':
+                polica = 43.00
+            elif bonus.get() == '   140%':
+                polica = 46.00
+            elif bonus.get() == '   150%':
+                polica = 50.00
+            elif bonus.get() == '   160%':
+                polica = 53.00
+            elif bonus.get() == '   180%':
+                polica = 59.00
+            elif bonus.get() == '   200%':
+                polica = 66.00
         elif 101 > int(zapremina.get()) > 50:
             polica = 63.00
             if bonus.get() == '      0%' or bonus.get() == "    Odaberite iznos bonusa":
@@ -2992,6 +3314,22 @@ def checkcmbo():
                 polica = 35.00
             elif bonus.get() == '    50%':
                 polica = 32.00
+            elif bonus.get() == '   110%':
+                polica = 69.00
+            elif bonus.get() == '   120%':
+                polica = 76.00
+            elif bonus.get() == '   130%':
+                polica = 82.00
+            elif bonus.get() == '   140%':
+                polica = 88.00
+            elif bonus.get() == '   150%':
+                polica = 95.00
+            elif bonus.get() == '   160%':
+                polica = 101.00
+            elif bonus.get() == '   180%':
+                polica = 113.00
+            elif bonus.get() == '   200%':
+                polica = 126.00
         elif 176 > int(zapremina.get()) > 100:
             polica = 84.00
             if bonus.get() == '      0%' or bonus.get() == "    Odaberite iznos bonusa":
@@ -3017,6 +3355,22 @@ def checkcmbo():
                 polica = 46.00
             elif bonus.get() == '    50%':
                 polica = 42.00
+            elif bonus.get() == '   110%':
+                polica = 92.00
+            elif bonus.get() == '   120%':
+                polica = 101.00
+            elif bonus.get() == '   130%':
+                polica = 109.00
+            elif bonus.get() == '   140%':
+                polica = 118.00
+            elif bonus.get() == '   150%':
+                polica = 126.00
+            elif bonus.get() == '   160%':
+                polica = 134.00
+            elif bonus.get() == '   180%':
+                polica = 151.00
+            elif bonus.get() == '   200%':
+                polica = 168.00
         elif 251 > int(zapremina.get()) > 175:
             polica = 108.00
             if bonus.get() == '      0%' or bonus.get() == "    Odaberite iznos bonusa":
@@ -3042,6 +3396,22 @@ def checkcmbo():
                 polica = 59.00
             elif bonus.get() == '    50%':
                 polica = 54.00
+            elif bonus.get() == '   110%':
+                polica = 119.00
+            elif bonus.get() == '   120%':
+                polica = 130.00
+            elif bonus.get() == '   130%':
+                polica = 140.00
+            elif bonus.get() == '   140%':
+                polica = 151.00
+            elif bonus.get() == '   150%':
+                polica = 162.00
+            elif bonus.get() == '   160%':
+                polica = 173.00
+            elif bonus.get() == '   180%':
+                polica = 194.00
+            elif bonus.get() == '   200%':
+                polica = 216.00
         elif 501 > int(zapremina.get()) > 250:
             polica = 189.00
             if bonus.get() == '      0%' or bonus.get() == "    Odaberite iznos bonusa":
@@ -3067,6 +3437,22 @@ def checkcmbo():
                 polica = 104.00
             elif bonus.get() == '    50%':
                 polica = 95.00
+            elif bonus.get() == '   110%':
+                polica = 208.00
+            elif bonus.get() == '   120%':
+                polica = 227.00
+            elif bonus.get() == '   130%':
+                polica = 246.00
+            elif bonus.get() == '   140%':
+                polica = 265.00
+            elif bonus.get() == '   150%':
+                polica = 284.00
+            elif bonus.get() == '   160%':
+                polica = 302.00
+            elif bonus.get() == '   180%':
+                polica = 340.00
+            elif bonus.get() == '   200%':
+                polica = 378.00
         elif 751 > int(zapremina.get()) > 500:
             polica = 365.00
             if bonus.get() == '      0%' or bonus.get() == "    Odaberite iznos bonusa":
@@ -3092,6 +3478,22 @@ def checkcmbo():
                 polica = 201.00
             elif bonus.get() == '    50%':
                 polica = 182.00
+            elif bonus.get() == '   110%':
+                polica = 402.00
+            elif bonus.get() == '   120%':
+                polica = 438.00
+            elif bonus.get() == '   130%':
+                polica = 475.00
+            elif bonus.get() == '   140%':
+                polica = 511.00
+            elif bonus.get() == '   150%':
+                polica = 548.00
+            elif bonus.get() == '   160%':
+                polica = 584.00
+            elif bonus.get() == '   180%':
+                polica = 657.00
+            elif bonus.get() == '   200%':
+                polica = 730.00
         elif int(zapremina.get()) > 750:
             polica = 551.00
             if bonus.get() == '      0%' or bonus.get() == "    Odaberite iznos bonusa":
@@ -3117,6 +3519,22 @@ def checkcmbo():
                 polica = 303.00
             elif bonus.get() == '    50%':
                 polica = 276.00
+            elif bonus.get() == '   110%':
+                polica = 606.00
+            elif bonus.get() == '   120%':
+                polica = 661.00
+            elif bonus.get() == '   130%':
+                polica = 716.00
+            elif bonus.get() == '   140%':
+                polica = 771.00
+            elif bonus.get() == '   150%':
+                polica = 827.00
+            elif bonus.get() == '   160%':
+                polica = 882.00
+            elif bonus.get() == '   180%':
+                polica = 992.00
+            elif bonus.get() == '   200%':
+                polica = 1102.00
 
         if int(zapremina.get()) > 125:
             porez = 50
@@ -3279,7 +3697,6 @@ def checkcmbo():
         labelPomoc.place(x=650, y=368)
     else:
         labelPomoc.place(x=640, y=368)
-
 
     label42 = Label(root, text="KM", bg="#ffffff", fg="#222")
     label42.place(x=685, y=368)
@@ -3537,7 +3954,7 @@ def spremi():
     # set the dimensions of the screen
     # and where it is placed
     newWindow1.geometry('%dx%d+%d+%d' % (w1, h1, x1, y1))
-    newWindow1.iconbitmap('icons/thumb.ico')
+    newWindow1.iconbitmap('icons/grawe.ico')
     newWindow1.title("Podaci o zaposleniku")
     newWindow1.resizable(height=False, width=False)
     newWindow1.configure(background='#e6e6e6')
@@ -3600,26 +4017,23 @@ def export():
     # set the dimensions of the screen
     # and where it is placed
     newWindow.geometry('%dx%d+%d+%d' % (w2, h2, x2, y2))
-    newWindow.iconbitmap('icons/thumb.ico')
+    newWindow.iconbitmap('icons/grawe.ico')
     newWindow.title("Obračun registracije vozila")
     newWindow.resizable(height=False, width=False)
     newWindow.configure(background='#e6e6e6')
 
-    img = PhotoImage(file='icons/central.png')
+    img = PhotoImage(file='icons/grawe.png')
 
     label55 = Label(image=img)
     label55.image = img # keep a reference!
     label55.pack()
 
-
-
     w1 = Canvas(newWindow, width=400, bg="#ffffff", height=732, highlightthickness=0)
     w1.place(x=16, y=8)
 
-
-    w1.create_image(6, 55, image=img, anchor=SW)
+    w1.create_image(10, 51, image=img, anchor=SW)
     #x=20, y=12
-    label55.place(x=25, y=2)
+    label55.place(x=37, y=2)
     w1.create_line(1, 65, 399, 65, 399, 65, 399, 731, 399, 731, 1, 731, 1, 731, 1, 65, fill="#222")
 
     w1.create_line(1, 101, 399, 101, 399, 136, 1, 136)
@@ -3712,13 +4126,13 @@ def export():
         label73.place(x=198, y=46)
         label73.config(font=("Arial", 10, 'bold'))
 
-    btn2 = Button(newWindow, image=button2, bd=0, bg='#e6e6e6', command=izvoz)
+    btn2 = Button(newWindow, image=button2, bg="#e6e6e6", bd=0, command=izvoz)
     btn2.place(x=340, y=746)
 
-    btn6 = Button(newWindow, image=button3, bd=0, bg='#e6e6e6', command=printaj)
+    btn6 = Button(newWindow, image=button3, bg="#e6e6e6", bd=0, command=printaj)
     btn6.place(x=280, y=746)
 
-    btn4 = Button(newWindow, image=edit, bd=0, bg='#e6e6e6', font="Arial 12", command=spremi)
+    btn4 = Button(newWindow, image=edit, bg="#e6e6e6", bd=0, font="Arial 12", command=spremi)
     btn4.place(x=25, y=746)
 
     duzina = "Klijent: " + klijent.get()
@@ -3805,7 +4219,7 @@ def export():
     label21.place(x=117, y=184)
     label21.config(font=("Arial", 12))
 
-    labelZeleni1= Label(newWindow, text=format(zeleniK, '.2f'), bg="#ffffff", fg="#222")
+    labelZeleni1 = Label(newWindow, text=format(zeleniK, '.2f'), bg="#ffffff", fg="#222")
     labelZeleni1.place(x=315, y=184)
     labelZeleni1.config(font="Arial 12")
 
@@ -3898,7 +4312,6 @@ def export():
         labelPomoc1.place(x=315, y=359)
     else:
         labelPomoc1.place(x=305, y=359)
-
 
     label42 = Label(newWindow, text="KM", bg="#ffffff", fg="#222")
     label42.place(x=350, y=359)
@@ -4044,7 +4457,6 @@ def export():
     else:
         labelKomUg1.place(x=305, y=639)
 
-
     label42 = Label(newWindow, text="KM", bg="#ffffff", fg="#222")
     label42.place(x=350, y=639)
     label42.config(font="Arial 12")
@@ -4086,12 +4498,12 @@ def export():
 
 #-----------------------------------------BUTTON------------------------------------------------------------------------
 
-btn = Button(text="Izračunaj!", bg="#222", fg="#ffffff", font="Arial 12", command=checkcmbo)
+btn = Button(text="Izračunaj!", bg="#017a3d", fg="white", font="Arial 12", command=checkcmbo)
 btn.place(x=96, y=460)
 
 button=PhotoImage(file='icons/share.png')
 
-btn1 = Button(image=button, bd=0, bg="#222", fg="#ffffff", font="Arial 12", command=export)
+btn1 = Button(image=button, bd=0, bg="#e6e6e6", fg="#ffffff", font="Arial 12", command=export)
 btn1.place(x=659, y=757)
 
 #------------------------------ZAVRŠNE POSTAVKE I POZIVANJE LOOP-a------------------------------------------------------
